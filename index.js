@@ -1,4 +1,4 @@
-class ChunksRenamePlugin {
+class EnhancedChunksRenamePlugin {
   constructor(chunksToRename = {}) {
     Object.keys(chunksToRename).forEach(key => {
       this[key] = chunksToRename[key];
@@ -7,23 +7,28 @@ class ChunksRenamePlugin {
 
   apply(compiler) {
     compiler.hooks.compilation.tap(
-      "ChunksRenamePlugin",
+      "EnhancedChunksRenamePlugin",
       (compilation, { normalModuleFactory }) => {
         compilation.chunkTemplate.hooks.renderManifest.tap(
-          "ChunksRenamePlugin",
+          "EnhancedChunksRenamePlugin",
           (result, options) => {
             const chunk = options.chunk;
             const outputOptions = options.outputOptions;
 
             if (
-              this.initialChunksWithEntry &&
-              chunk.hasEntryModule() &&
+              this.initialChunks &&
+              // chunk.hasEntryModule() && 去掉该条件判断使得 SplitChunksPlugin 生成的 vendors chunk 依然有效
               chunk.isOnlyInitial()
             ) {
+              this.initialCssChunks&&result&&result.forEach((obj)=>{
+                  if (obj.pathOptions.contentHashType === "css/mini-extract") {
+                    obj.filenameTemplate = this.initialCssChunks;
+                  }
+                });
               chunk.filenameTemplate =
-                typeof this.initialChunksWithEntry === "boolean"
+                typeof this.initialChunks === "boolean"
                   ? outputOptions.filename
-                  : this.initialChunksWithEntry;
+                  : this.initialChunks;
             }
             if (this.asyncChunks && !chunk.isOnlyInitial()) {
               chunk.filenameTemplate = this.asyncChunks;
@@ -41,4 +46,4 @@ class ChunksRenamePlugin {
   }
 }
 
-module.exports = ChunksRenamePlugin;
+module.exports = EnhancedChunksRenamePlugin;

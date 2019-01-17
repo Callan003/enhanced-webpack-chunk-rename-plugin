@@ -1,5 +1,5 @@
 {
-  "name": "webpack-chunk-rename-plugin",
+  "name": "enhanced-webpack-chunk-rename-plugin",
   "version": "1.0.3",
   "main": "index.js",
   "keywords": [
@@ -10,10 +10,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/MhMadHamster/webpack-chunk-rename-plugin.git"
+    "url": "https://github.com/madlordory/enhanced-webpack-chunk-rename-plugin.git"
   },
   "description": "Plugin to rename webpack chunks",
-  "author": "MhMadHamster <mhmad.hamster@gmail.com>",
+  "author": "madlord <madlord.cn@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=6.11.5"

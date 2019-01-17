@@ -1,13 +1,18 @@
 [![npm](https://img.shields.io/npm/v/webpack-chunk-rename-plugin.svg?style=flat-square)](https://www.npmjs.com/package/webpack-chunk-rename-plugin)
 [![node](https://img.shields.io/node/v/webpack-chunk-rename-plugin.svg?style=flat-square)](https://www.npmjs.com/package/webpack-chunk-rename-plugin)
-# webpack-chunk-rename-plugin
+# enhanced-webpack-chunk-rename-plugin
 
 This plugin helps with chunk naming in webpack. **To use it you need at least webpack 4.1**  
+
+enhancement
+
+* initial vendor chunks split by `SplitChunksPlugin` will be fine
+* initial css chunks split by `MiniCssExtractPlugin` will be fine
 
 ## Install
 ```
 npm install webpack-chunk-rename-plugin --save-dev
-```  
+```
 or if you are using yarn
 ```
 yarn add webpack-chunk-rename-plugin --dev
@@ -23,10 +28,11 @@ module.exports = {
     new ChunkRenamePlugin(objectWithOptions),
   ],
 }
-```  
+```
 Option|Type|Description
 --|--|--
-`initialChunksWithEntry`|`boolean\|string`|Rename all chunks which are satisfy the condition `chunk.hasEntryModule() && chunk.isOnlyInitial`. If `true` is passed then use `output.filename` option, if string is passed, use it as chunk name i.e. you can use all placeholder for chunk naming like `[hash]`,`[name]`,`[chunkhash]` etc.
+`initialChunks`|`boolean\|string`|Rename all chunks which are satisfy the condition ` chunk.isOnlyInitial`. If `true` is passed then use `output.filename` option, if string is passed, use it as chunk name i.e. you can use all placeholder for chunk naming like `[hash]`,`[name]`,`[chunkhash]` etc.
+`initialCssChunks`|`string`|Use provided string to rename all initial css chunks split by `MiniCssExtractPlugin`. Just like for previous option, standart placeholders could be used.
 `asyncChunks`|`string`|Use provided string to rename all async chunks. Just like for previous option, standart placeholders could be used.
 `[chunkName]`|`string`|Use provided string to rename specific chunk.
 
@@ -45,7 +51,7 @@ module.exports = {
   ....
   plugins: [
     new ChunkRenamePlugin({
-      initialChunksWithEntry: true,
+      initialChunks: true,
       mySpecialChunk: "specialName.[name].js",
     }),
   ],
